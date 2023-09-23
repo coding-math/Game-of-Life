@@ -127,7 +127,6 @@ void startGame(float **grid, float **newGrid) {
                 grid[i][j] = newGrid[i][j];
             }
         }
-        printf("Generation %d: %d survivors\n", k + 1, getSurvivors(grid));
     }
 }
 
@@ -138,7 +137,7 @@ int main (void) {
     glider(grid);
     rpentomino(grid);
 
-    printf("Initial condition: ", getSurvivors(grid));
+    printf("Initial condition: %d\n", getSurvivors(grid));
 
     startGame(grid, newGrid);
     return 0;
