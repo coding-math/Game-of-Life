@@ -141,7 +141,7 @@ int main (void) {
     glider(grid);
     rpentomino(grid);
 
-    printf("Initial condition: ", getSurvivors(grid));
+    printf("Initial condition: %d survivors\n", getSurvivors(grid));
 
     startGame(grid, newGrid);
     return 0;
