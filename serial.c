@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-// Criado em: 20/09/2023
-// Game of Life - Serial
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -147,9 +143,6 @@ int main (void) {
     startGame(grid, newGrid);
     return 0;
 }
-=======
-// Criado em: 20/09/2023
-// Game of Life - Serial
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -296,4 +289,3 @@ int main (void) {
     startGame(grid, newGrid);
     return 0;
 }
->>>>>>> d984d765e6a7f62140f93448dfc1e477ecaf3d02
