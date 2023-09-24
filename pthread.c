@@ -86,7 +86,7 @@ void *analyzeSubMatrix(void *args){
     }
   }
 
-    return;
+    return NULL;
 }
 void *clean(void *args){
   int i,j;

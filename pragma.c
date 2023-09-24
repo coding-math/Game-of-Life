@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <locale.h>
 #include <omp.h>
-#include <time.h>
 
 // Vamos desenvolver o jogo da vida de Conway
 // Toda célula possui 8 outras vizinhas (horizontal, vertical e diagonal)
@@ -31,7 +30,7 @@
 #define TAMANHO 2048
 
 // testar com 1 ,2, 4 e 8 threads
-//#define NUM_THREADS 1
+#define NUM_THREADS 8
 
 
 void inicializaGrid(float **grid, float **new_grid){
@@ -138,7 +137,7 @@ void salvarMatriz(float **grid, FILE *arquivo) {
 
 int main(){
     
-    //omp_set_num_threads(NUM_THREADS);
+    omp_set_num_threads(NUM_THREADS);
     
     float **grid = (float **)malloc(TAMANHO * sizeof(float *));
     float **new_grid = (float **)malloc(TAMANHO * sizeof(float *));
@@ -165,6 +164,10 @@ int main(){
     printf("Tempo de execução trecho de computação das gerações: %f\n", stoP - starT);
     //fclose(arquivo);
     printf("Quantidade de celulas vivas Geração %d: %d\n", GERACOES, quantidadeCelulasVivas(new_grid));
+    for (int i = 0; i < TAMANHO; i++){
+        free(grid[i]);
+        free(new_grid[i]);
+    }
     free(grid);
     free(new_grid);
     return 0;
