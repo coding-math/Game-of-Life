@@ -1,3 +1,8 @@
+// INTEGRANTES DO GRUPO
+// GABRIEL ALMEIDA RODRIGUES PEREIRA 143229
+// MATHEUS DE SOUZA MEIRE 140317
+// BRUNO PIRES 139892
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
