@@ -139,11 +139,12 @@ int main (void) {
     rpentomino(grid);
 
     printf("Initial condition: %d\n", getSurvivors(grid));
-    
+
     clock_t begin = clock();
     startGame(grid, newGrid);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent: %f\n", time_spent);
 
     return 0;
 }
