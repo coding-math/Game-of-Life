@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define N 2048
 #define ITERATIONS 2000
@@ -127,7 +128,6 @@ void startGame(float **grid, float **newGrid) {
                 grid[i][j] = newGrid[i][j];
             }
         }
-        printf("Generation %d: %d survivors\n", k + 1, getSurvivors(grid));
     }
 }
 
@@ -138,8 +138,12 @@ int main (void) {
     glider(grid);
     rpentomino(grid);
 
-    printf("Initial condition: ", getSurvivors(grid));
-
+    printf("Initial condition: %d\n", getSurvivors(grid));
+    
+    clock_t begin = clock();
     startGame(grid, newGrid);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
     return 0;
 }
