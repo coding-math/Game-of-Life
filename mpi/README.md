@@ -20,14 +20,14 @@ docker-compose up -d
 
 Isso iniciará os contêineres necessários para simular o cluster.
 
-Obs: Os contêineres gerados pelo Docker Compose seguem o padrão de nome "game-of-life-mpi-X", onde X é o número do contêiner de 1 a 8.
+Obs: Os contêineres gerados pelo Docker Compose seguem o padrão de nome "mpi-container-X", onde X é o número do contêiner de 1 a 8.
 
 ## 3. Rodar o Game of Life no Cluster MPI
 
 Para executar o MPI dentro da rede Docker, utilize o comando `./mpi.sh --hosts <numero_de_hosts>` em qualquer um dos contêineres:
 
 ```bash
-docker exec -it game-of-life-mpi-1 ./mpi.sh --hosts <numero_de_hosts>
+docker exec -it mpi-container-1 ./mpi.sh --hosts <numero_de_hosts>
 ```
 
 Ajuste `<numero_de_hosts>` conforme necessário para a quantidade desejada de hosts.
