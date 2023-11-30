@@ -9,7 +9,7 @@ Este repositório contém o código-fonte do Rainbow Game of Life, um algoritmo 
 * [Funcionamento do Algoritmo](#funcionamento-do-algoritmo)
 * [Resultados de Tempo](#resultados-de-tempo)
 * [Diferentes Implementações](#diferentes-implementações)
-  * [pthread](#pthread)
+  * [PThread](#pthread)
   * [OpenMP](#openmp)
   * [MPI](#mpi)
 * [Configurações de Hardware](#configurações-de-hardware)
@@ -64,7 +64,7 @@ Os resultados de tempo foram obtidos a partir de uma comparação entre diferent
 
 ## Diferentes Implementações
 
-### pthread
+### PThread
 
 Para acessar a implementação com pthreads, acesse o diretório [pthread](pthread).
 
