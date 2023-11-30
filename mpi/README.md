@@ -1,6 +1,6 @@
-# Cluster MPI
+# Game of Life - Cluster MPI
 
-Este documento fornece um guia passo a passo para criar e utilizar um cluster MPI usando Docker. Certifique-se de ter Docker e Docker Compose instalados em seu sistema antes de começar.
+Este documento fornece um guia passo a passo para criar e utilizar um cluster MPI com Docker no Game of Life. Certifique-se de ter Docker e Docker Compose instalados em seu sistema antes de começar.
 
 ## 1. Construir a imagem MPI
 
