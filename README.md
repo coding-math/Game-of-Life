@@ -1,6 +1,6 @@
 # Rainbow Game of Life
 
-Este repositório contém o código-fonte do Rainbow Game of Life, um algoritmo celular desenvolvido como parte de uma atividade para a disciplina de Programação Concorrente e Distribuída (PCD). O Rainbow Game of Life é uma variação do famoso Jogo da Vida de Conway, no qual células em uma grade evoluem de acordo com regras simples.
+Este repositório contém diferentes implementações do Rainbow Game of Life, um algoritmo celular desenvolvido como parte de uma atividade para a disciplina de Programação Concorrente e Distribuída (PCD). O Rainbow Game of Life é uma variação do famoso Jogo da Vida de Conway, no qual células em uma grade evoluem de acordo com regras simples.
 
 # Tabela de Conteúdos
 
