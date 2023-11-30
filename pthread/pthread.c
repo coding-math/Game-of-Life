@@ -9,6 +9,7 @@
 #define tableSize 2048
 #define A 0
 #define B 1
+#define NUM_THREADS 4
 #include <time.h>
 
 typedef struct{
@@ -146,7 +147,7 @@ int main(){
     for(j=0;j<2048;j++)
       boardA[i][j] = boardB[i][j] = 0.0;
 
-  int numThreads=8;
+  int numThreads=NUM_THREADS;
   int numGens=2000;
 
   // printf("Numero de threads (potencia de 2):");
