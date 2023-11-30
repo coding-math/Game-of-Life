@@ -2,11 +2,24 @@
 
 Este repositório contém o código-fonte do Rainbow Game of Life, um algoritmo celular desenvolvido como parte de uma atividade para a disciplina de Programação Concorrente e Distribuída (PCD). O Rainbow Game of Life é uma variação do famoso Jogo da Vida de Conway, no qual células em uma grade evoluem de acordo com regras simples.
 
+# Tabela de Conteúdos
+
+* [Autores](#autores)
+* [Objetivo](#objetivo)
+* [Funcionamento do Algoritmo](#funcionamento-do-algoritmo)
+* [Resultados de Tempo](#resultados-de-tempo)
+* [Diferentes Implementações](#diferentes-implementações)
+  * [PThread](#pthread)
+  * [OpenMP](#openmp)
+  * [MPI](#mpi)
+* [Configurações de Hardware](#configurações-de-hardware)
+* [Licença](#licença)
+
 ## Autores
 
-- [Bruno Pires](https://www.github.com/psbruno)
-- [Gabriel Almeida](https://www.github.com/garpereira)
-- [Matheus Silva](https://www.github.com/matheuxito)
+* [Bruno Pires](https://www.github.com/psbruno)
+* [Gabriel Almeida](https://www.github.com/garpereira)
+* [Matheus Silva](https://www.github.com/matheuxito)
 
 ## Objetivo
 
@@ -23,17 +36,17 @@ O Rainbow Game of Life segue as regras clássicas do Jogo da Vida de Conway. As 
 
 A configuração inicial da matriz é a seguinte:
 
-- Inicie a geração inicial do tabuleiro (array) a partir da posição [1, 1] com uma figura de um Glider, onde as células vazias correspondem ao valor zero (0.0) e as células preenchidas correspondem ao valor um (1.0), conforme a figura abaixo:
+* Inicie a geração inicial do tabuleiro (array) a partir da posição [1, 1] com uma figura de um Glider, onde as células vazias correspondem ao valor zero (0.0) e as células preenchidas correspondem ao valor um (1.0), conforme a figura abaixo:
 
-```
+```md
 0 1 0
 0 0 1
 1 1 1
 ```
 
-- Além disso, adicione a figura de um R-pentomino a partir da linha 10 e coluna 30, da seguinte forma:
+* Além disso, adicione a figura de um R-pentomino a partir da linha 10 e coluna 30, da seguinte forma:
 
-```
+```md
 0 1 1
 1 1 0
 0 1 0
@@ -41,27 +54,41 @@ A configuração inicial da matriz é a seguinte:
 
 Visualização do funcionamento do algoritmo:
 
-<img src="media/animacao_geracoes.gif" alt="Rainbow Game of Life Animation" width="60%" style="display: block; margin: 0 auto;"><br>
+![Rainbow Game of Life](media/animacao_geracoes.gif)
 
 ## Resultados de Tempo
 
 Os resultados de tempo foram obtidos a partir de uma comparação entre diferentes implementações do Rainbow Game of Life, variando o número de threads. O gráfico a seguir mostra a comparação entre o número de threads (eixo X) e o tempo em segundos (eixo Y) necessário para simular as 2000 gerações:
 
-<img src="media/comparacao.png" alt="Gráfico de Desempenho" width="60%" style="display: block; margin: 0 auto;"><br>
+![Gráfico de Desempenho](media/comparacao.png)
+
+## Diferentes Implementações
+
+### PThread
+
+Para acessar a implementação com pthreads, acesse o diretório [pthread](pthread).
+
+### OpenMP
+
+Para acessar a implementação com OpenMP, acesse o diretório [openmp](openmp).
+
+### MPI
+
+Para acessar a implementação com MPI, acesse o diretório [mpi](mpi).
 
 ## Configurações de Hardware
 
 O algoritmo foi executado em um computador com as seguintes configurações:
 
-- Processador:
+* Processador:
 
-<img src="specs/cpu.jpg" alt="Intel Core i5 11400H" width="30%" style="display: block; margin: 0 auto;"><br>
+![Intel Core i5 11400H](media/specs/cpu.jpg)
 
-- Memória RAM:
+* Memória RAM:
 
-<img src="specs/ram.jpg" alt="16 GB Ram DDR4" width="30%" style="display: block; margin: 0 auto;"><br>
+![16 GB Ram DDR4](media/specs/ram.jpg)
 
-- Sistema Operacional: Windows 11
+* Sistema Operacional: Windows 11
 
 ## Licença
 
