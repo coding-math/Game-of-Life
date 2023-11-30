@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  mpi:
+    image: game-of-life:latest
+    deploy:
+      replicas: 8
+    networks:
+      - mpi_net
+
+networks:
+  mpi_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/8
