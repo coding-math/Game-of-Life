@@ -49,17 +49,31 @@ Os resultados de tempo foram obtidos a partir de uma comparação entre diferent
 
 <img src="media/comparacao.png" alt="Gráfico de Desempenho" width="60%" style="display: block; margin: 0 auto;"><br>
 
+## Diferentes Implementações
+
+#### - pthread
+
+Para acessar a implementação com pthreads, acesse o diretório [pthread](pthread).
+
+#### - OpenMP
+
+Para acessar a implementação com OpenMP, acesse o diretório [openmp](openmp).
+
+#### - MPI
+
+Para acessar a implementação com MPI, acesse o diretório [mpi](mpi).
+
 ## Configurações de Hardware
 
 O algoritmo foi executado em um computador com as seguintes configurações:
 
 - Processador:
 
-<img src="specs/cpu.jpg" alt="Intel Core i5 11400H" width="30%" style="display: block; margin: 0 auto;"><br>
+<img src="media/specs/cpu.jpg" alt="Intel Core i5 11400H" width="30%" style="display: block; margin: 0 auto;"><br>
 
 - Memória RAM:
 
-<img src="specs/ram.jpg" alt="16 GB Ram DDR4" width="30%" style="display: block; margin: 0 auto;"><br>
+<img src="media/specs/ram.jpg" alt="16 GB Ram DDR4" width="30%" style="display: block; margin: 0 auto;"><br>
 
 - Sistema Operacional: Windows 11
 
