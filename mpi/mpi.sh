@@ -30,6 +30,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             echo "Opção desconhecida: $1"
+            echo "Use --help para obter ajuda."
             exit 1
             ;;
     esac
