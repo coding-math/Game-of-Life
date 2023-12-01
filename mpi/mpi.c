@@ -10,7 +10,6 @@
 #include <sys/time.h>
 #include <time.h>
 
-#define V 0        // versão: game of life 0, high life 1
 #define N 2048     // tamanho da matriz
 #define TAMANHO 2048
 #define VIVA 1
@@ -84,13 +83,8 @@ void updateNeighbors(int **grid, int **newgrid, int i, int j, int neighbors) {
     else newgrid[i][j] = 0;
   }
   else { //celula morta
-    if (V == 0) { // Game of life
-      if (neighbors == 3) newgrid[i][j] = 1;
-      else newgrid[i][j] = 0;
-    } else if (V == 1) { // High life
-      if (neighbors == 3 || neighbors == 6) newgrid[i][j] = 1;
-      else newgrid[i][j] = 0;
-    }
+    if (neighbors == 3) newgrid[i][j] = 1;
+    else newgrid[i][j] = 0;
   }
 }
 
@@ -116,7 +110,8 @@ int main(int argc, char **argv) {
 
   if(procID == master) {
     printf("Game of Life - MPI\n");
-    printf("Rodando com %d processos...\n\n", nProcs);
+    if (nProcs > 1) printf("Rodando com %d processos...\n\n", nProcs);
+    else printf("Rodando com 1 processo...\n\n");
   }
 
   double tempoInicio = MPI_Wtime(); //Tempo inicial da execução do programa
