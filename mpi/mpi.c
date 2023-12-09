@@ -11,6 +11,7 @@
 #define TAMANHO 2048     // tamanho da matriz
 #define VIVA 1
 #define MORTA 0
+#define MASTER 0
 #define G 2000     // número de gerações
 
 void zeros(int **matrix, int nRows) {
@@ -98,20 +99,20 @@ int livingCells(int **grid, int **newGrid, int nRows) {
 }
 
 int main(int argc, char **argv) {
-  int procID, nProcs, master = 0;
+  int procID, nProcs;
   int i, j, generation, livingGenerations;
 
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD, &procID);
   MPI_Comm_size(MPI_COMM_WORLD, &nProcs);
 
-  if(procID == master) {
+  if(procID == MASTER) {
     printf("Game of Life - MPI\n");
     if (nProcs > 1) printf("Rodando com %d processos...\n\n", nProcs);
     else printf("Rodando com 1 processo...\n\n");
   }
 
-  double tempoInicio = MPI_Wtime(); //Tempo inicial da execução do programa
+  double tempoInicio = MPI_Wtime();
 
   int nRows, localSize, vecRows[nProcs];
   int sendcounts[nProcs], begin[nProcs];
@@ -131,16 +132,15 @@ int main(int argc, char **argv) {
 
   int *recvbuffer = (int *) malloc(nRows * TAMANHO * sizeof(int));
 
-  // Compartilha o pedaço da matriz inicial com o processo responsável //
-  if (procID == master) {
+  if (procID == MASTER) {
     int *initialGrid = (int *) malloc(TAMANHO * TAMANHO * sizeof(int));
     setInitGrid(initialGrid);
     MPI_Scatterv(initialGrid, sendcounts, begin, MPI_INT, recvbuffer,
-                (nRows*TAMANHO), MPI_INT, master, MPI_COMM_WORLD);
+                (nRows*TAMANHO), MPI_INT, MASTER, MPI_COMM_WORLD);
     free(initialGrid);
   } else {
     MPI_Scatterv(NULL, sendcounts, begin, MPI_INT, recvbuffer,
-                (nRows*TAMANHO), MPI_INT, master, MPI_COMM_WORLD);
+                (nRows*TAMANHO), MPI_INT, MASTER, MPI_COMM_WORLD);
   }
 
   int **grid = malloc((nRows + 2) * sizeof(int *));
@@ -178,13 +178,13 @@ int main(int argc, char **argv) {
 
     if (generation == G-1) {
       MPI_Reduce(&livingGenerations, &finalLivingGenerations,
-                 1, MPI_INT, MPI_SUM, master, MPI_COMM_WORLD);
+                 1, MPI_INT, MPI_SUM, MASTER, MPI_COMM_WORLD);
     }
   }
 
-  double tempoFinal = MPI_Wtime(); //Tempo do término da execução do programa
+  double tempoFinal = MPI_Wtime();
 
-  if (procID == master) {
+  if (procID == MASTER) {
     printf("Tempo de execução: %.04fs\n", (tempoFinal - tempoInicio));
     printf("Número de sobreviventes na geração %d: %d\n", G, finalLivingGenerations);
   }
