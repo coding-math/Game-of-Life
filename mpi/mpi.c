@@ -7,11 +7,8 @@
 #include <stdlib.h>
 #include <mpi.h>
 #include <unistd.h>
-#include <sys/time.h>
-#include <time.h>
 
-#define N 2048     // tamanho da matriz
-#define TAMANHO 2048
+#define TAMANHO 2048     // tamanho da matriz
 #define VIVA 1
 #define MORTA 0
 #define G 2000     // número de gerações
@@ -19,7 +16,7 @@
 void zeros(int **matrix, int nRows) {
   int i, j;
   for (i = 0; i < nRows; i++) {
-    for (j = 0; j < N; j++) {
+    for (j = 0; j < TAMANHO; j++) {
       matrix[i][j] = 0;
     }
   }
@@ -28,9 +25,9 @@ void zeros(int **matrix, int nRows) {
 void join(int **grid, int *recvbuffer, int nRows) {
   int i, j;
   for (i = 0; i < nRows+2; i++) {
-    for (j = 0; j < N; j++) {
+    for (j = 0; j < TAMANHO; j++) {
       if (i == 0 || i == nRows+1) grid[i][j] = 0;
-      else grid[i][j] = recvbuffer[((i - 1) * N) + j];
+      else grid[i][j] = recvbuffer[((i - 1) * TAMANHO) + j];
     }
   }
 }
@@ -38,26 +35,26 @@ void join(int **grid, int *recvbuffer, int nRows) {
 void setInitGrid(int *grid) {
   int lin, col;
 
-  for (lin = 0; lin < N; lin++) {
-    for (col = 0; col < N; col++) {
-      grid[(lin * N) + col] = 0;
+  for (lin = 0; lin < TAMANHO; lin++) {
+    for (col = 0; col < TAMANHO; col++) {
+      grid[(lin * TAMANHO) + col] = 0;
     }
   }
   // GLIDER
   lin = 1, col = 1;
-  grid[(lin * N) + col + 1] = 1;
-  grid[((lin + 1) * N) + col + 2] = 1;
-  grid[((lin + 2) * N) + col] = 1;
-  grid[((lin + 2) * N) + col + 1] = 1;
-  grid[((lin + 2) * N) + col + 2] = 1;
+  grid[(lin * TAMANHO) + col + 1] = 1;
+  grid[((lin + 1) * TAMANHO) + col + 2] = 1;
+  grid[((lin + 2) * TAMANHO) + col] = 1;
+  grid[((lin + 2) * TAMANHO) + col + 1] = 1;
+  grid[((lin + 2) * TAMANHO) + col + 2] = 1;
 
   //R-pentomino
   lin = 10; col = 30;
-  grid[(lin * N) + col + 1] = 1;
-  grid[(lin * N) + col + 2] = 1;
-  grid[((lin + 1) * N) + col] = 1;
-  grid[((lin + 1) * N) + col + 1] = 1;
-  grid[((lin + 2) * N) + col + 1] = 1;
+  grid[(lin * TAMANHO) + col + 1] = 1;
+  grid[(lin * TAMANHO) + col + 2] = 1;
+  grid[((lin + 1) * TAMANHO) + col] = 1;
+  grid[((lin + 1) * TAMANHO) + col + 1] = 1;
+  grid[((lin + 2) * TAMANHO) + col + 1] = 1;
 }
 
 int getNeighbors(int ** grid, int i, int j){
@@ -77,24 +74,24 @@ int getNeighbors(int ** grid, int i, int j){
     return neighbors;
 }
 
-void updateNeighbors(int **grid, int **newgrid, int i, int j, int neighbors) {
+void updateNeighbors(int **grid, int **newGrid, int i, int j, int neighbors) {
   if (grid[i][j]) { // celula viva
-    if (neighbors == 2 || neighbors == 3) newgrid[i][j] = 1;
-    else newgrid[i][j] = 0;
+    if (neighbors == 2 || neighbors == 3) newGrid[i][j] = 1;
+    else newGrid[i][j] = 0;
   }
   else { //celula morta
-    if (neighbors == 3) newgrid[i][j] = 1;
-    else newgrid[i][j] = 0;
+    if (neighbors == 3) newGrid[i][j] = 1;
+    else newGrid[i][j] = 0;
   }
 }
 
-int findLivingGenerations(int **grid, int **newgrid, int nRows) {
+int livingCells(int **grid, int **newGrid, int nRows) {
   int i, j, neighbors, livingGenerations = 0;
   for (i = 1; i < nRows+1; i++) {
-    for (j = 0; j < N; j++) {
+    for (j = 0; j < TAMANHO; j++) {
       neighbors = getNeighbors(grid, i, j);
-      updateNeighbors(grid, newgrid, i, j, neighbors);
-      if (newgrid[i][j]) livingGenerations++;
+      updateNeighbors(grid, newGrid, i, j, neighbors);
+      if (newGrid[i][j]) livingGenerations++;
     }
   }
   return livingGenerations;
@@ -120,40 +117,40 @@ int main(int argc, char **argv) {
   int sendcounts[nProcs], begin[nProcs];
 
   for (i = 0; i < nProcs; i++) {
-    localSize = N/nProcs;
+    localSize = TAMANHO/nProcs;
     begin[i] = i * localSize;
 
-    if (i == nProcs-1) vecRows[i] = N - begin[i];
-    else vecRows[i] = N/nProcs;
+    if (i == nProcs-1) vecRows[i] = TAMANHO - begin[i];
+    else vecRows[i] = TAMANHO/nProcs;
 
-    sendcounts[i] = vecRows[i] * N;
-    if (i > 0) begin[i] = (vecRows[i-1] * N * i);
+    sendcounts[i] = vecRows[i] * TAMANHO;
+    if (i > 0) begin[i] = (vecRows[i-1] * TAMANHO * i);
   }
 
   nRows = vecRows[procID];
 
-  int *recvbuffer = (int *) malloc(nRows * N * sizeof(int));
+  int *recvbuffer = (int *) malloc(nRows * TAMANHO * sizeof(int));
 
   // Compartilha o pedaço da matriz inicial com o processo responsável //
   if (procID == master) {
-    int *initialgrid = (int *) malloc(N * N * sizeof(int));
-    setInitGrid(initialgrid);
-    MPI_Scatterv(initialgrid, sendcounts, begin, MPI_INT, recvbuffer,
-                (nRows*N), MPI_INT, master, MPI_COMM_WORLD);
-    free(initialgrid);
+    int *initialGrid = (int *) malloc(TAMANHO * TAMANHO * sizeof(int));
+    setInitGrid(initialGrid);
+    MPI_Scatterv(initialGrid, sendcounts, begin, MPI_INT, recvbuffer,
+                (nRows*TAMANHO), MPI_INT, master, MPI_COMM_WORLD);
+    free(initialGrid);
   } else {
     MPI_Scatterv(NULL, sendcounts, begin, MPI_INT, recvbuffer,
-                (nRows*N), MPI_INT, master, MPI_COMM_WORLD);
+                (nRows*TAMANHO), MPI_INT, master, MPI_COMM_WORLD);
   }
 
   int **grid = malloc((nRows + 2) * sizeof(int *));
-  int **newgrid = malloc((nRows + 2) * sizeof(int *));
+  int **newGrid = malloc((nRows + 2) * sizeof(int *));
 
   for (i = 0; i < nRows+2; i++) {
-    grid[i] = malloc(N * sizeof(int));
-    newgrid[i] = malloc(N * sizeof(int));
+    grid[i] = malloc(TAMANHO * sizeof(int));
+    newGrid[i] = malloc(TAMANHO * sizeof(int));
   }
-  zeros(newgrid, nRows+2);
+  zeros(newGrid, nRows+2);
 
   join(grid, recvbuffer, nRows);
 
@@ -166,17 +163,17 @@ int main(int argc, char **argv) {
   for (generation = 0; generation < G; generation++) {
     MPI_Barrier(MPI_COMM_WORLD);
     if (generation%2 == 0) {
-      MPI_Isend(grid[1], N, MPI_INT, previousProc, 12, MPI_COMM_WORLD, &request);
-      MPI_Isend(grid[nRows], N, MPI_INT, nextProc, 12, MPI_COMM_WORLD, &request);
-      MPI_Recv(grid[nRows+1], N, MPI_INT, nextProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(grid[0], N, MPI_INT, previousProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      livingGenerations = findLivingGenerations(grid, newgrid, nRows);
+      MPI_Isend(grid[1], TAMANHO, MPI_INT, previousProc, 12, MPI_COMM_WORLD, &request);
+      MPI_Isend(grid[nRows], TAMANHO, MPI_INT, nextProc, 12, MPI_COMM_WORLD, &request);
+      MPI_Recv(grid[nRows+1], TAMANHO, MPI_INT, nextProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(grid[0], TAMANHO, MPI_INT, previousProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      livingGenerations = livingCells(grid, newGrid, nRows);
     } else {
-      MPI_Isend(newgrid[1], N, MPI_INT, previousProc, 12, MPI_COMM_WORLD, &request);
-      MPI_Isend(newgrid[nRows], N, MPI_INT, nextProc, 12, MPI_COMM_WORLD, &request);
-      MPI_Recv(newgrid[nRows+1], N, MPI_INT, nextProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(newgrid[0], N, MPI_INT, previousProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      livingGenerations = findLivingGenerations(newgrid, grid, nRows);
+      MPI_Isend(newGrid[1], TAMANHO, MPI_INT, previousProc, 12, MPI_COMM_WORLD, &request);
+      MPI_Isend(newGrid[nRows], TAMANHO, MPI_INT, nextProc, 12, MPI_COMM_WORLD, &request);
+      MPI_Recv(newGrid[nRows+1], TAMANHO, MPI_INT, nextProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(newGrid[0], TAMANHO, MPI_INT, previousProc, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      livingGenerations = livingCells(newGrid, grid, nRows);
     }
 
     if (generation == G-1) {
@@ -193,7 +190,7 @@ int main(int argc, char **argv) {
   }
 
   free(grid);
-  free(newgrid);
+  free(newGrid);
   MPI_Finalize();
 }
 
