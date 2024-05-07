@@ -19,7 +19,7 @@ Este repositório contém diferentes implementações do Rainbow Game of Life, u
 
 * [Bruno Pires](https://www.github.com/psbruno)
 * [Gabriel Almeida](https://www.github.com/garpereira)
-* [Matheus Silva](https://www.github.com/matheuxito)
+* [Matheus Silva](https://www.github.com/coding-math)
 
 ## Objetivo
 
